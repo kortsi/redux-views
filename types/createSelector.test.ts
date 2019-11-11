@@ -1,6 +1,15 @@
-import { createSelector, OutputParametricSelector } from "redux-views";
-import { getSelectedContactId, getContactId, getContacts, getCompanies, getCompanyId, State, PropsA, PropsB } from "./test.types";
-import { contactIdSelector } from "./createIdSelector.test";
+import { createSelector, OutputParametricSelector } from 'redux-views';
+import {
+  getSelectedContactId,
+  getContactId,
+  getContacts,
+  getCompanies,
+  getCompanyId,
+  State,
+  PropsA,
+  PropsB
+} from './test.types';
+import { contactIdSelector } from './createIdSelector.test';
 
 const areEqual = <T>(a: T, b: T) => a === b;
 
@@ -22,13 +31,13 @@ createSelector(
   areEqual
 );
 
-// $ExpectType OutputParametricSelector<{ selectedContact: string; }, PropsA, boolean, (res1: string, res2: string) => boolean>
+// $ExpectType OutputParametricSelector<{ selectedContact: string; }, PropsA, boolean, (res1: string, res2: string | number) => boolean>
 createSelector(
   getSelectedContactId,
   contactIdSelector,
   areEqual
 );
-// $ExpectType OutputParametricSelector<{ selectedContact: string; }, PropsA, boolean, (res1: string, res2: string) => boolean>
+// $ExpectType OutputParametricSelector<{ selectedContact: string; }, PropsA, boolean, (res1: string, res2: string | number) => boolean>
 createSelector(
   [getSelectedContactId, contactIdSelector],
   areEqual
@@ -56,4 +65,11 @@ const companyHasContact = createSelector(
   (contact, company) => company.employees.indexOf(contact.name) >= 0
 );
 // $ExpectType true
-type CHC_IS_RIGHT = typeof companyHasContact extends OutputParametricSelector<State, PropsA & PropsB, boolean, any> ? true : false;
+type CHC_IS_RIGHT = typeof companyHasContact extends OutputParametricSelector<
+  State,
+  PropsA & PropsB,
+  boolean,
+  any
+>
+  ? true
+  : false;
